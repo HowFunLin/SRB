@@ -17,11 +17,6 @@
             <artifactId>guigu-common</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
-        <!--swagger-->
-        <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-swagger2</artifactId>
-        </dependency>
         <!--swagger ui-->
         <dependency>
             <groupId>io.springfox</groupId>
