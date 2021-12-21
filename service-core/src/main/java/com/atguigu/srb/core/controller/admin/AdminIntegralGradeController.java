@@ -32,7 +32,7 @@ public class AdminIntegralGradeController {
     @ApiOperation("获取积分等级列表")
     @GetMapping("/list")
     public R listAll() {
-        return R.ok().data("list", integralGradeService.list());
+        return R.ok().message("获取积分等级列表成功").data("list", integralGradeService.list());
     }
 
     @ApiOperation(value = "根据主键ID删除积分等级", notes = "逻辑删除")

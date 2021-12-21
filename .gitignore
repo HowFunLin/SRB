@@ -31,3 +31,11 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### Node.js ###
+.DS_Store
+*/node_modules/
+npm-debug.log
+
+### Maven ###
+.mvn
