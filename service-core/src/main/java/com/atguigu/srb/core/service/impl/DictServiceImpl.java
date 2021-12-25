@@ -106,7 +106,7 @@ public class DictServiceImpl extends ServiceImpl<DictMapper, Dict> implements Di
      *
      * @param id 节点 ID
      */
-    private Boolean hasChildren(Long id) {
+    public Boolean hasChildren(Long id) {
         return this.count(new QueryWrapper<Dict>().eq("parent_id", id)) > 0;
     }
 }

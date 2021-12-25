@@ -9,9 +9,9 @@ spring:
   datasource: # MySQL数据库连接
     type: com.zaxxer.hikari.HikariDataSource
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/srb_core?serverTimezone=GMT%2B8&characterEncoding=utf-8
+    url: jdbc:mysql://192.168.241.134:3306/srb_core?serverTimezone=GMT%2B8&characterEncoding=utf-8
     username: root
-    password:
+    password: 123698745lin
   redis:
     host: 192.168.241.134
     port: 6379
@@ -34,4 +34,7 @@ mybatis-plus:
 # 日志级别
 #logging:
 #  level:
-#    root: error
+#    root: debug
+canal:
+  destination: srb_core
+  server: 192.168.241.134:11111
