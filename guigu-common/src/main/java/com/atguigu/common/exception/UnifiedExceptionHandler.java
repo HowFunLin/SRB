@@ -7,7 +7,7 @@ import org.springframework.beans.ConversionNotSupportedException;
 import org.springframework.beans.TypeMismatchException;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.http.converter.HttpMessageNotWritableException;
-import org.springframework.jdbc.BadSqlGrammarException;
+import org.springframework.stereotype.Component;
 import org.springframework.web.HttpMediaTypeNotAcceptableException;
 import org.springframework.web.HttpMediaTypeNotSupportedException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
@@ -21,38 +21,31 @@ import org.springframework.web.context.request.async.AsyncRequestTimeoutExceptio
 import org.springframework.web.multipart.support.MissingServletRequestPartException;
 import org.springframework.web.servlet.NoHandlerFoundException;
 
-/**
- * 异常处理器
- */
 @Slf4j
-@RestControllerAdvice
+@Component
+@RestControllerAdvice // 拦截 Controller 方法
 public class UnifiedExceptionHandler {
     /**
-     * 接收其他未定义处理逻辑的异常
+     * 未定义异常，系统异常直接使用该处理器捕获即可
      */
-    @ExceptionHandler(Exception.class)
-    public R handler(Exception e) {
+    @ExceptionHandler(value = Exception.class) // 当 Controller 抛出 Exception ，则捕获
+    public R handleException(Exception e) {
         log.error(e.getMessage(), e);
         return R.error();
     }
 
     /**
-     * SQL 语法异常（不属于业务异常）
+     * 自定义异常，捕获业务造成的异常
      */
-    @ExceptionHandler(BadSqlGrammarException.class)
-    public R handler(BadSqlGrammarException e) {
-        log.error(e.getMessage(), e);
-        return R.setResult(ResponseEnum.BAD_SQL_GRAMMAR_ERROR);
-    }
-
     @ExceptionHandler(BusinessException.class)
-    public R handler(BusinessException e) {
+    public R handleBusinessException(BusinessException e) {
         log.error(e.getMessage(), e);
+
         return R.error().message(e.getMessage()).code(e.getCode());
     }
 
     /**
-     * 进入 Controller 之前触发的相关异常（ Servlet 请求异常）
+     * Controller 上层相关异常（HTTP，Servlet）
      */
     @ExceptionHandler({
             NoHandlerFoundException.class,
@@ -72,7 +65,7 @@ public class UnifiedExceptionHandler {
     })
     public R handleServletException(Exception e) {
         log.error(e.getMessage(), e);
-        //SERVLET_ERROR(-102, "servlet请求异常"),
+
         return R.error().message(ResponseEnum.SERVLET_ERROR.getMessage()).code(ResponseEnum.SERVLET_ERROR.getCode());
     }
 }

@@ -1,6 +1,7 @@
 package com.atguigu.srb.core;
 
 import com.atguigu.srb.core.mapper.DictMapper;
+import com.atguigu.srb.core.pojo.entity.Dict;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -14,21 +15,22 @@ import java.util.concurrent.TimeUnit;
 @RunWith(SpringRunner.class)
 public class RedisTemplateTests {
     @Resource
-    private RedisTemplate<String, Object> redisTemplate;
+    private RedisTemplate<String, Dict> redisTemplate;
 
     @Resource
     private DictMapper dictMapper;
 
-    /**
-     * 测试 Redis
-     */
     @Test
     public void saveDict() {
-        redisTemplate.opsForValue().set("dict", dictMapper.selectById(1), 1, TimeUnit.MINUTES);
+        Dict dict = dictMapper.selectById(1);
+
+        redisTemplate.opsForValue().set("dict", dict, 5, TimeUnit.MINUTES);
     }
 
     @Test
     public void getDict() {
-        System.out.println(redisTemplate.opsForValue().get("dict"));
+        Dict dict = redisTemplate.opsForValue().get("dict");
+
+        System.out.println(dict);
     }
 }

@@ -18,7 +18,7 @@ import java.time.LocalDateTime;
  * </p>
  *
  * @author Riyad
- * @since 2021-12-19
+ * @since 2021-12-27
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -54,6 +54,7 @@ public class Dict implements Serializable {
     @TableLogic
     private Boolean deleted;
 
-    @TableField(exist = false) // 不存在表中
-    private Boolean hasChildren;
+    @ApiModelProperty(value = "是否包含子节点")
+    @TableField(exist = false) // 数据库表不存在此列
+    private boolean hasChildren;
 }

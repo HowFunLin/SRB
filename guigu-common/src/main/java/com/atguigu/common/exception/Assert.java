@@ -4,9 +4,6 @@ import com.atguigu.common.result.ResponseEnum;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.StringUtils;
 
-/**
- * 模仿 Spring 框架自定义断言，封装异常到 BusinessException 中
- */
 @Slf4j
 public abstract class Assert {
     /**
@@ -21,7 +18,6 @@ public abstract class Assert {
             throw new BusinessException(responseEnum);
         }
     }
-
 
     /**
      * 断言对象为空

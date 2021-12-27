@@ -27,7 +27,7 @@ import java.util.concurrent.TimeUnit;
  * </p>
  *
  * @author Riyad
- * @since 2021-12-19
+ * @since 2021-12-27
  */
 @Slf4j
 @Service
@@ -35,78 +35,62 @@ public class DictServiceImpl extends ServiceImpl<DictMapper, Dict> implements Di
     @Resource
     private RedisTemplate<String, List<Dict>> redisTemplate;
 
-    /**
-     * 导入 Excel 文件内容并利用 Listener 写入数据库
-     *
-     * @param inputStream Excel 文件输入流
-     */
-    @Transactional(rollbackFor = Exception.class) // 默认 RuntimeException 才回滚
+    @Transactional(rollbackFor = {Exception.class})
     @Override
     public void importData(InputStream inputStream) {
         EasyExcel.read(inputStream, ExcelDictDTO.class, new ExcelDictDTOListener(baseMapper)).sheet().doRead();
-        log.info("Excel 导入成功");
+        log.info("Excel 文件中的数据导入完成");
     }
 
-    /**
-     * 导出为 Excel 文件形式
-     */
     @Override
     public List<ExcelDictDTO> listDictData() {
-        List<Dict> dictionaries = baseMapper.selectList(null);
-        List<ExcelDictDTO> result = new ArrayList<>(dictionaries.size());
+        List<Dict> dictList = baseMapper.selectList(null);
+        List<ExcelDictDTO> excelDictDTOList = new ArrayList<>(dictList.size()); // 将 Dict 列表转换成 ExcelDictDTO 列表
 
-        dictionaries.forEach(dict -> {
-            ExcelDictDTO dto = new ExcelDictDTO();
+        dictList.forEach(dict -> {
+            ExcelDictDTO excelDictDTO = new ExcelDictDTO();
 
-            BeanUtils.copyProperties(dict, dto);
-
-            result.add(dto);
+            BeanUtils.copyProperties(dict, excelDictDTO); // 复制相同属性值到 ExcelDictDTO
+            excelDictDTOList.add(excelDictDTO);
         });
 
-        return result;
+        return excelDictDTOList;
     }
 
-    /**
-     * 数据字典页面展示
-     *
-     * @param parentId 父节点 ID
-     */
     @Override
     public List<Dict> listByParentId(Long parentId) {
-        List<Dict> dictionaries;
+        List<Dict> dictList;
 
-        // Redis 服务器异常之后仍可从 MySQL 查询数据而不应该直接结束
         try {
-            dictionaries = redisTemplate.opsForValue().get("srb:core:dictionaries:" + parentId);
+            dictList = redisTemplate.opsForValue().get("srb:core:dictList:" + parentId);
 
-            if (dictionaries != null) {
-                log.info("从 Redis 获取到数据字典");
-                return dictionaries;
+            // 缓存查询成功则直接返回
+            if (dictList != null) {
+                log.info("从 Redis 中读取缓存");
+                return dictList;
             }
-        } catch (Exception e) {
-            log.error("Redis 服务器读取异常：{}", ExceptionUtils.getStackTrace(e));
+        } catch (Exception e) { // 需修改 Axios 错误等待时间更长一些，防止 Redis 宕机导致 AJAX 请求超时
+            log.error("Redis服务器异常：" + ExceptionUtils.getStackTrace(e)); // 继续执行后续代码，不应该因为 Redis 服务器异常而不继续查询 MySQL
         }
 
-        dictionaries = baseMapper.selectList(new QueryWrapper<Dict>().eq("parent_id", parentId));
+        log.info("从 MySQL 中查询数据");
 
-        dictionaries.forEach(dict -> dict.setHasChildren(hasChildren(dict.getId())));
+        dictList = baseMapper.selectList(new QueryWrapper<Dict>().eq("parent_id", parentId));
+
+        dictList.forEach(dict -> dict.setHasChildren(hasChildren(dict.getId())));
 
         try {
-            redisTemplate.opsForValue().set("srb:core:dictionaries:" + parentId, dictionaries, 3, TimeUnit.MINUTES);
-            log.info("数据字典缓存到 Redis");
+            redisTemplate.opsForValue().set("srb:core:dictList:" + parentId, dictList, 5, TimeUnit.MINUTES);
+            log.info("数据字典存入缓存");
         } catch (Exception e) {
-            log.error("Redis 服务器写入异常：{}", ExceptionUtils.getStackTrace(e));
+            log.error("Redis服务器异常：" + ExceptionUtils.getStackTrace(e));// 继续执行后续代码，不应该因为 Redis 服务器异常而不返回查询结果
         }
 
-        return dictionaries;
+        return dictList;
     }
 
-    /**
-     * 判断当前节点是否拥有子节点
-     *
-     * @param id 节点 ID
-     */
-    private Boolean hasChildren(Long id) {
+    @Override
+    public boolean hasChildren(Long id) {
         return this.count(new QueryWrapper<Dict>().eq("parent_id", id)) > 0;
     }
 }

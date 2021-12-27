@@ -18,13 +18,19 @@
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
 
-        <!--Swagger-UI-->
+        <!--swagger-->
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger2</artifactId>
+        </dependency>
+
+        <!--swagger ui-->
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger-ui</artifactId>
         </dependency>
 
-        <!-- Spring Boot Redis 引入 -->
+        <!-- SpringBoot Redis 引入 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-redis</artifactId>

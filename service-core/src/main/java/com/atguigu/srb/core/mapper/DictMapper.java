@@ -12,8 +12,13 @@ import java.util.List;
  * </p>
  *
  * @author Riyad
- * @since 2021-12-19
+ * @since 2021-12-27
  */
 public interface DictMapper extends BaseMapper<Dict> {
+    /**
+     * 批量插入缓存中数据
+     *
+     * @param list 缓存
+     */
     void insertBatch(List<ExcelDictDTO> list);
 }

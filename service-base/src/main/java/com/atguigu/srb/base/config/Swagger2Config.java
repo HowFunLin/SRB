@@ -20,8 +20,10 @@ public class Swagger2Config {
                 .groupName("Admin API")
                 .apiInfo(adminApiInfo())
                 .select()
-                .paths(Predicates.and(PathSelectors.regex("/admin/.*"))) // 路径选择器
+                //只显示 admin 路径下的页面
+                .paths(Predicates.and(PathSelectors.regex("/admin/.*")))
                 .build();
+
     }
 
     private ApiInfo adminApiInfo() {
@@ -29,26 +31,27 @@ public class Swagger2Config {
                 .title("尚融宝后台管理系统-API文档")
                 .description("本文档描述了尚融宝后台管理系统接口")
                 .version("1.0")
-                .contact(new Contact("HowFun", "https://www.github.com/howfunlin", "how-fun@foxmail.com"))
+                .contact(new Contact("Riyad", "https://github.com/howfunlin", "how-fun@foxmail.com"))
                 .build();
     }
 
     @Bean
-    public Docket webApiConfig() {
+    public Docket apiConfig() {
         return new Docket(DocumentationType.SWAGGER_2)
-                .groupName("Web API")
-                .apiInfo(webApiInfo())
+                .groupName("API")
+                .apiInfo(apiInfo())
                 .select()
-                .paths(Predicates.and(PathSelectors.regex("/api/.*")))
+                //只显示 API 路径下的页面
+                .paths(Predicates.and(PathSelectors.regex("/api/mail/.*")))
                 .build();
     }
 
-    private ApiInfo webApiInfo() {
+    private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                .title("尚融宝网站系统-API文档")
-                .description("本文档描述了尚融宝网站系统接口")
+                .title("尚融宝-API文档")
+                .description("本文档描述了尚融宝接口")
                 .version("1.0")
-                .contact(new Contact("HowFun", "https://www.github.com/howfunlin", "how-fun@foxmail.com"))
+                .contact(new Contact("Riyad", "https://github.com/howfunlin", "how-fun@foxmail.com"))
                 .build();
     }
 }

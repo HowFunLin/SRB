@@ -19,7 +19,7 @@ import java.time.LocalDateTime;
  * </p>
  *
  * @author Riyad
- * @since 2021-12-19
+ * @since 2021-12-27
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -29,7 +29,7 @@ public class IntegralGrade implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @ApiModelProperty(value = "编号")
-    @TableId(value = "id", type = IdType.AUTO)
+      @TableId(value = "id", type = IdType.AUTO)
     private Long id;
 
     @ApiModelProperty(value = "积分区间开始")

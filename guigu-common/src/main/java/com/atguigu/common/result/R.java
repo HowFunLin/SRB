@@ -1,25 +1,14 @@
 package com.atguigu.common.result;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- *
- */
-@ApiModel(value = "R对象",description = "统一封装响应信息")
 @Data
 public class R {
-    @ApiModelProperty("响应码")
     private Integer code;
-
-    @ApiModelProperty("响应信息")
     private String message;
-
-    @ApiModelProperty("响应数据")
     private Map<String, Object> data = new HashMap<>();
 
     /**
@@ -27,8 +16,6 @@ public class R {
      */
     private R() {
     }
-
-    // ---------- 静态方法供外部调用生成对象 ----------
 
     /**
      * 返回成功结果
@@ -60,8 +47,6 @@ public class R {
         return r;
     }
 
-    // ---------- 设置响应码、响应信息、数据等 ----------
-
     public R data(String key, Object value) {
         this.data.put(key, value);
         return this;
@@ -79,6 +64,7 @@ public class R {
         this.setMessage(message);
         return this;
     }
+
 
     /**
      * 设置特定的响应码

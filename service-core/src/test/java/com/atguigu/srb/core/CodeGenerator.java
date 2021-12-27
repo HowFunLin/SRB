@@ -10,9 +10,6 @@ import com.baomidou.mybatisplus.generator.config.StrategyConfig;
 import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
 import org.junit.Test;
 
-/**
- * MyBatis-Plus 代码生成器
- */
 public class CodeGenerator {
     @Test
     public void genCode() {
@@ -25,17 +22,17 @@ public class CodeGenerator {
         gc.setOutputDir(projectPath + "/src/main/java");
         gc.setAuthor("Riyad");
         gc.setOpen(false); //生成后是否打开资源管理器
-        gc.setServiceName("%sService");    //去掉Service接口的首字母I
+        gc.setServiceName("%sService");	//去掉Service接口的首字母I
         gc.setIdType(IdType.AUTO); //主键策略
         gc.setSwagger2(true);//开启Swagger2模式
         mpg.setGlobalConfig(gc);
 
         // 3、数据源配置
         DataSourceConfig dsc = new DataSourceConfig();
-        dsc.setUrl("jdbc:mysql://localhost:3306/srb_core?serverTimezone=GMT%2B8&characterEncoding=utf-8");
+        dsc.setUrl("jdbc:mysql://192.168.241.134:3306/srb_core?serverTimezone=GMT%2B8&characterEncoding=utf-8");
         dsc.setDriverName("com.mysql.cj.jdbc.Driver");
         dsc.setUsername("root");
-        dsc.setPassword("");
+        dsc.setPassword("123698745lin");
         dsc.setDbType(DbType.MYSQL);
         mpg.setDataSource(dsc);
 
@@ -48,7 +45,6 @@ public class CodeGenerator {
         // 5、策略配置
         StrategyConfig strategy = new StrategyConfig();
         strategy.setNaming(NamingStrategy.underline_to_camel);//数据库表映射到实体的命名策略
-
         strategy.setColumnNaming(NamingStrategy.underline_to_camel);//数据库表字段映射到实体的命名策略
         strategy.setEntityLombokModel(true); // lombok
         strategy.setLogicDeleteFieldName("is_deleted");//逻辑删除字段名
