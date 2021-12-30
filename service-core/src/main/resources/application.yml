@@ -29,3 +29,8 @@ mybatis-plus: #mybatis
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
   mapper-locations: classpath:com/atguigu/srb/core/mapper/xml/*.xml
+
+canal:
+  ip: 192.168.241.134
+  port: 11111
+  destination: srb_core
