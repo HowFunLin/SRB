@@ -42,7 +42,7 @@ public class Swagger2Config {
                 .apiInfo(apiInfo())
                 .select()
                 //只显示 API 路径下的页面
-                .paths(Predicates.and(PathSelectors.regex("/api/mail/.*")))
+                .paths(Predicates.and(PathSelectors.regex("/api/.*")))
                 .build();
     }
 

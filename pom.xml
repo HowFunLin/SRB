@@ -9,6 +9,7 @@
         <module>service-base</module>
         <module>service-core</module>
         <module>service-mail</module>
+        <module>service-oss</module>
     </modules>
 
     <parent>
