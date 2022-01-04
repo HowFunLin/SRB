@@ -25,9 +25,13 @@
         </dependency>
 
         <!--swagger ui-->
+        <!--<dependency>-->
+            <!--<groupId>io.springfox</groupId>-->
+            <!--<artifactId>springfox-swagger-ui</artifactId>-->
+        <!--</dependency>-->
         <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-swagger-ui</artifactId>
+            <groupId>com.github.xiaoymin</groupId>
+            <artifactId>swagger-bootstrap-ui</artifactId>
         </dependency>
 
         <!-- SpringBoot Redis 引入 -->
@@ -49,6 +53,12 @@
         <dependency>
             <groupId>com.fasterxml.jackson.datatype</groupId>
             <artifactId>jackson-datatype-jsr310</artifactId>
+        </dependency>
+
+        <!--JWT-->
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt</artifactId>
         </dependency>
     </dependencies>
 </project>
