@@ -10,11 +10,15 @@ import com.atguigu.srb.core.mapper.UserLoginRecordMapper;
 import com.atguigu.srb.core.pojo.entity.UserAccount;
 import com.atguigu.srb.core.pojo.entity.UserInfo;
 import com.atguigu.srb.core.pojo.entity.UserLoginRecord;
+import com.atguigu.srb.core.pojo.query.UserInfoQuery;
 import com.atguigu.srb.core.pojo.vo.LoginVO;
 import com.atguigu.srb.core.pojo.vo.RegisterVO;
 import com.atguigu.srb.core.pojo.vo.UserInfoVO;
 import com.atguigu.srb.core.service.UserInfoService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.toolkit.StringUtils;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
@@ -89,7 +93,7 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> i
         // 插入登录记录
         UserLoginRecord userLoginRecord = new UserLoginRecord();
 
-        userLoginRecord.setId(userInfo.getId());
+        userLoginRecord.setUserId(userInfo.getId());
         userLoginRecord.setIp(ip);
 
         userLoginRecordMapper.insert(userLoginRecord);
@@ -104,5 +108,32 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> i
         userInfoVO.setToken(token);
 
         return userInfoVO;
+    }
+
+    @Override
+    public IPage<UserInfo> listPage(Page<UserInfo> pageParam, UserInfoQuery userInfoQuery) {
+        if (userInfoQuery == null)
+            return baseMapper.selectPage(pageParam, null);
+
+        String mobile = userInfoQuery.getMobile();
+        Integer status = userInfoQuery.getStatus();
+        Integer userType = userInfoQuery.getUserType();
+
+        return baseMapper.selectPage(pageParam,
+                new QueryWrapper<UserInfo>()
+                        .eq(StringUtils.isNotBlank(mobile), "mobile", mobile)
+                        .eq(status != null, "status", status)
+                        .eq(userType != null, "user_type", userType)
+        );
+    }
+
+    @Override
+    public void lock(Long id, Integer status) {
+        UserInfo userInfo = new UserInfo();
+
+        userInfo.setId(id);
+        userInfo.setStatus(status);
+
+        baseMapper.updateById(userInfo);
     }
 }
