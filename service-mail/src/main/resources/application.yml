@@ -22,3 +22,7 @@ spring:
     host: smtp.qq.com
     username: 1003941051@qq.com
     password: astiecpqavcsbdfd
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 192.168.241.134:8848

@@ -37,4 +37,9 @@ public interface UserInfoService extends IService<UserInfo> {
      * 用户锁定
      */
     void lock(Long id, Integer status);
+
+    /**
+     * 判断邮箱地址是否被注册
+     */
+    boolean checkMobile(String mobile);
 }

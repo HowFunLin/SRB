@@ -24,6 +24,10 @@ spring:
         max-wait: 1000ms    #最大阻塞等待时间，负值表示没限制，默认-1
         max-idle: 8     #最大空闲连接，默认8
         min-idle: 0     #最小空闲连接，默认0
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 192.168.241.134:8848
 
 mybatis-plus: #mybatis
   configuration:
@@ -34,3 +38,10 @@ canal:
   ip: 192.168.241.134
   port: 11111
   destination: srb_core
+
+feign:
+  client:
+    config:
+      default:
+        connectTimeout: 10000 #连接超时配置
+        readTimeout: 600000 #执行超时配置

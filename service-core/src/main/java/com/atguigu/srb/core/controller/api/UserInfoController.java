@@ -75,5 +75,11 @@ public class UserInfoController {
     public R checkToken(HttpServletRequest request) {
         return JwtUtils.checkToken(request.getHeader("token")) ? R.ok() : R.setResult(ResponseEnum.LOGIN_AUTH_ERROR);
     }
+
+    @ApiOperation("校验邮箱地址是否注册")
+    @GetMapping("/checkMobile/{mobile}")
+    public boolean checkMobile(@PathVariable String mobile) {
+        return userInfoService.checkMobile(mobile);
+    }
 }
 
