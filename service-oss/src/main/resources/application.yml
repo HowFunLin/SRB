@@ -17,3 +17,12 @@ aliyun:
     access-key-id: LTAI5tSTEPk2Exaesu2FaMoN
     secret-access-key: wN1oJcKCTCw6yJetNOFMRZxqPH2dUU
     bucket-name: hf-srb-file
+
+feign:
+  client:
+    config:
+      default:
+        connectTimeout: 10000 #连接超时配置
+        readTimeout: 600000 #执行超时配置
+  sentinel:
+    enabled: true

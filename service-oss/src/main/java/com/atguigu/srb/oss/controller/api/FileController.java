@@ -14,7 +14,7 @@ import javax.annotation.Resource;
 import java.io.IOException;
 
 @Api(tags = "阿里云 OSS 文件管理")
-@CrossOrigin //跨域
+//@CrossOrigin //跨域
 @RestController
 @RequestMapping("/api/oss/file")
 public class FileController {

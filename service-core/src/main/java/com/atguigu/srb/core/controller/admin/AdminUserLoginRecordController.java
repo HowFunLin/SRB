@@ -23,7 +23,7 @@ import javax.annotation.Resource;
 @RestController
 @RequestMapping("/admin/core/userLoginRecord")
 @Slf4j
-@CrossOrigin
+//@CrossOrigin
 public class AdminUserLoginRecordController {
     @Resource
     private UserLoginRecordService userLoginRecordService;

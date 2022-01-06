@@ -21,7 +21,7 @@ import java.util.concurrent.TimeUnit;
 @RestController
 @RequestMapping("/api/mail")
 @Api(tags = "邮件管理")
-@CrossOrigin
+//@CrossOrigin
 @Slf4j
 public class ApiMailController {
     @Resource
@@ -41,6 +41,7 @@ public class ApiMailController {
         Assert.isTrue(RegexValidateUtils.checkEmail(email), ResponseEnum.EMAIL_ERROR);
 
         // 远程调用判断邮箱地址是否已经被注册
+        // 若远程调用等待时间过长直接触发熔断，service-core 注册业务还会进行校验
         Assert.isTrue(!coreUserInfoClient.checkMobile(email), ResponseEnum.EMAIL_EXIST_ERROR);
 
         //生成验证码

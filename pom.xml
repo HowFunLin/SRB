@@ -10,6 +10,7 @@
         <module>service-core</module>
         <module>service-mail</module>
         <module>service-oss</module>
+        <module>service-gateway</module>
     </modules>
 
     <parent>
