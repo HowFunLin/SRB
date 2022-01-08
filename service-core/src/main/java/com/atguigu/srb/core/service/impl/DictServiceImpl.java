@@ -93,4 +93,9 @@ public class DictServiceImpl extends ServiceImpl<DictMapper, Dict> implements Di
     public boolean hasChildren(Long id) {
         return this.count(new QueryWrapper<Dict>().eq("parent_id", id)) > 0;
     }
+
+    @Override
+    public List<Dict> findByDictCode(String dictCode) {
+        return this.listByParentId(baseMapper.selectOne(new QueryWrapper<Dict>().eq("dict_code", dictCode)).getId());
+    }
 }

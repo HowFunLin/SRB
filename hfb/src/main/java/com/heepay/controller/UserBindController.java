@@ -1,16 +1,16 @@
 package com.heepay.controller;
 
-import com.alibaba.fastjson.JSON;
 import com.heepay.model.NotifyVo;
 import com.heepay.model.UserBind;
 import com.heepay.service.UserBindService;
 import com.heepay.task.ScheduledTask;
 import com.heepay.util.SignUtil;
-import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;

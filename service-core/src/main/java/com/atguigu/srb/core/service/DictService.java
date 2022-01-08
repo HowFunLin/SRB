@@ -45,4 +45,12 @@ public interface DictService extends IService<Dict> {
      * @return 是否存在子行
      */
     boolean hasChildren(Long id);
+
+    /**
+     * 根据 dictCode 查询其子节点
+     *
+     * @param dictCode 数据字典二级节点名称
+     * @return dictCode 对应所有子节点
+     */
+    List<Dict> findByDictCode(String dictCode);
 }

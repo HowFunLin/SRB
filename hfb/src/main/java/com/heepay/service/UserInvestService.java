@@ -4,7 +4,11 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.heepay.model.UserInvest;
-import com.heepay.model.UserInvestQueryVo;;import java.util.Map;
+import com.heepay.model.UserInvestQueryVo;
+
+import java.util.Map;
+
+;
 
 public interface UserInvestService extends IService<UserInvest> {
 
