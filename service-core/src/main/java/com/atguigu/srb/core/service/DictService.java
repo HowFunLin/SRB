@@ -53,4 +53,13 @@ public interface DictService extends IService<Dict> {
      * @return dictCode 对应所有子节点
      */
     List<Dict> findByDictCode(String dictCode);
+
+    /**
+     * 根据 父节点字典编码 dict_code 和 当前节点值 value 获取 当前节点 name
+     *
+     * @param dictCode 父节点字典编码
+     * @param value    当前节点值
+     * @return 当前节点 name
+     */
+    String getNameByParentDictCodeAndValue(String dictCode, Integer value);
 }

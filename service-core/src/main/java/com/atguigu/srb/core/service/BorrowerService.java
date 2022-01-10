@@ -1,7 +1,10 @@
 package com.atguigu.srb.core.service;
 
 import com.atguigu.srb.core.pojo.entity.Borrower;
+import com.atguigu.srb.core.pojo.vo.BorrowerDetailVO;
 import com.atguigu.srb.core.pojo.vo.BorrowerVO;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**
@@ -28,4 +31,21 @@ public interface BorrowerService extends IService<Borrower> {
      * @return 借款人状态
      */
     Integer getStatusByUserId(Long userId);
+
+    /**
+     * 获取借款人分页列表
+     *
+     * @param pageParam 分页参数
+     * @param keyword   查询关键字
+     * @return 分页参数对应的借款人分页列表
+     */
+    IPage<Borrower> listPage(Page<Borrower> pageParam, String keyword);
+
+    /**
+     * 根据借款人 ID 获取借款人详细信息并封装 VO
+     *
+     * @param id 借款人 ID
+     * @return 借款人详细信息 VO
+     */
+    BorrowerDetailVO getBorrowerDetailVOById(Long id);
 }
