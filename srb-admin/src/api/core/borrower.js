@@ -15,4 +15,12 @@ export default {
       method: "get",
     });
   },
+
+  approval(borrowerApproval) {
+    return request({
+      url: "/admin/core/borrower/approval",
+      method: "post",
+      data: borrowerApproval,
+    });
+  },
 };
