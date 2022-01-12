@@ -193,6 +193,12 @@
             :closable="false"
           >
           </el-alert>
+          <!-- 页面跳转 -->
+          <NuxtLink to="/user/apply" v-if="borrowerStatus === 2">
+            <el-button style="margin-top:20px;" type="success">
+              我要借款
+            </el-button>
+          </NuxtLink>
 
           <el-alert
             v-if="borrowerStatus === -1"
