@@ -133,6 +133,19 @@ export const constantRoutes = [
         meta: { title: "借款人详情" },
         hidden: true,
       },
+      {
+        path: "info-list",
+        name: "coreBorrowInfoList",
+        component: () => import("@/views/core/borrow-info/list"),
+        meta: { title: "借款列表" },
+      },
+      {
+        path: "info-detail/:id",
+        name: "coreBorrowInfoDetail",
+        component: () => import("@/views/core/borrow-info/detail"),
+        meta: { title: "借款详情" },
+        hidden: true,
+      },
     ],
   },
 
