@@ -18,6 +18,7 @@ import com.atguigu.srb.core.pojo.vo.BorrowerDetailVO;
 import com.atguigu.srb.core.service.BorrowInfoService;
 import com.atguigu.srb.core.service.BorrowerService;
 import com.atguigu.srb.core.service.DictService;
+import com.atguigu.srb.core.service.LendService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
@@ -53,6 +54,9 @@ public class BorrowInfoServiceImpl extends ServiceImpl<BorrowInfoMapper, BorrowI
 
     @Resource
     private BorrowerService borrowerService;
+
+    @Resource
+    private LendService lendService;
 
     @Override
     public BigDecimal getBorrowAmount(Long userId) {
@@ -92,7 +96,7 @@ public class BorrowInfoServiceImpl extends ServiceImpl<BorrowInfoMapper, BorrowI
 
         // 设置其他数据，插入 borrow_info 表
         borrowInfo.setUserId(userId);
-        borrowInfo.setBorrowYearRate(borrowInfo.getBorrowYearRate().divide(new BigDecimal("100"), 2, BigDecimal.ROUND_UP));
+        borrowInfo.setBorrowYearRate(borrowInfo.getBorrowYearRate().divide(new BigDecimal(100), 2, BigDecimal.ROUND_UP));
         borrowInfo.setStatus(BorrowInfoStatusEnum.CHECK_RUN.getStatus());
 
         baseMapper.insert(borrowInfo);
@@ -131,7 +135,7 @@ public class BorrowInfoServiceImpl extends ServiceImpl<BorrowInfoMapper, BorrowI
         borrowInfo.getParam().put("moneyUse", dictService.getNameByParentDictCodeAndValue("moneyUse", borrowInfo.getMoneyUse()));
         borrowInfo.getParam().put("status", BorrowInfoStatusEnum.getMsgByStatus(borrowInfo.getStatus()));
 
-        // 查询借款详情 BorrowDetailVO
+        // 查询借款人详情 BorrowerDetailVO
         BorrowerDetailVO borrowerDetailVO = borrowerService.getBorrowerDetailVOById(
                 borrowerMapper.selectOne(new QueryWrapper<Borrower>().eq("user_id", borrowInfo.getUserId())).getId()
         );
@@ -156,8 +160,7 @@ public class BorrowInfoServiceImpl extends ServiceImpl<BorrowInfoMapper, BorrowI
         baseMapper.updateById(borrowInfo);
 
         // 审核通过，插入标的记录 lend
-        if (status.equals(BorrowInfoStatusEnum.CHECK_OK.getStatus())) {
-
-        }
+        if (status.equals(BorrowInfoStatusEnum.CHECK_OK.getStatus()))
+            lendService.createLend(borrowInfoApprovalVO, borrowInfo);
     }
 }
