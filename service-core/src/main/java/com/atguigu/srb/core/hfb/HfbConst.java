@@ -13,11 +13,11 @@ public class HfbConst {
      * 用户绑定
      */
     //用户绑定汇付宝平台url地址
-    public static final String USERBIND_URL = "http://localhost:9999/userBind/BindAgreeUserV2";
+    public static final String USER_BIND_URL = "http://localhost:9999/userBind/BindAgreeUserV2";
     //用户绑定异步回调
-    public static final String USERBIND_NOTIFY_URL = "http://localhost/api/core/userBind/notify";
+    public static final String USER_BIND_NOTIFY_URL = "http://localhost/api/core/userBind/notify";
     //用户绑定同步回调
-    public static final String USERBIND_RETURN_URL = "http://localhost:3000/user";
+    public static final String USER_BIND_RETURN_URL = "http://localhost:3000/user";
 
     /**
      * 充值
@@ -63,5 +63,4 @@ public class HfbConst {
     public static final String BORROW_RETURN_NOTIFY_URL = "http://localhost/api/core/lendReturn/notifyUrl";
     //充值同步回调
     public static final String BORROW_RETURN_RETURN_URL = "http://localhost:3000/user";
-
 }

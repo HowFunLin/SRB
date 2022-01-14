@@ -28,7 +28,9 @@ public class RequestHelper {
         str.append(HfbConst.SIGN_KEY);
 
         log.info("加密前：" + str.toString());
+
         String md5Str = MD5.encrypt(str.toString());
+
         log.info("加密后：" + md5Str);
 
         return md5Str;
@@ -68,19 +70,22 @@ public class RequestHelper {
      */
     public static JSONObject sendRequest(Map<String, Object> paramMap, String url) {
         String result = "";
+
         try {
-            //封装post参数
-            StringBuilder postdata = new StringBuilder();
+            //封装 POST 参数
+            StringBuilder postData = new StringBuilder();
 
             for (Map.Entry<String, Object> param : paramMap.entrySet()) {
-                postdata.append(param.getKey()).append("=")
+                postData.append(param.getKey()).append("=")
                         .append(param.getValue()).append("&");
             }
 
-            log.info(String.format("--> 发送请求到汇付宝：post data %1s", postdata));
-            byte[] reqData = postdata.toString().getBytes(StandardCharsets.UTF_8);
+            log.info(String.format("--> 发送请求到汇付宝：post data %1s", postData));
+
+            byte[] reqData = postData.toString().getBytes(StandardCharsets.UTF_8);
             byte[] respData = HttpUtils.doPost(url, reqData);
             result = new String(respData);
+
             log.info(String.format("--> 汇付宝应答结果：result data %1s", result));
         } catch (Exception ex) {
             ex.printStackTrace();

@@ -52,7 +52,11 @@ public class JwtUtils {
         }
     }
 
-
+    /**
+     * 获取当前登录用户 ID
+     * @param token 登录信息记录 token
+     * @return 当前登录用户 ID
+     */
     public static Long getUserId(String token) {
         return ((Integer) getClaims(token).get("userId")).longValue();
     }

@@ -71,12 +71,12 @@ public class UserBindServiceImpl extends ServiceImpl<UserBindMapper, UserBind> i
         paramMap.put("bankType", userBindVO.getBankType());
         paramMap.put("bankNo", userBindVO.getBankNo());
         paramMap.put("mobile", userBindVO.getMobile());
-        paramMap.put("returnUrl", HfbConst.USERBIND_RETURN_URL);
-        paramMap.put("notifyUrl", HfbConst.USERBIND_NOTIFY_URL);
+        paramMap.put("returnUrl", HfbConst.USER_BIND_RETURN_URL);
+        paramMap.put("notifyUrl", HfbConst.USER_BIND_NOTIFY_URL);
         paramMap.put("timestamp", RequestHelper.getTimestamp());
         paramMap.put("sign", RequestHelper.getSign(paramMap));
 
-        return FormHelper.buildForm(HfbConst.USERBIND_URL, paramMap);
+        return FormHelper.buildForm(HfbConst.USER_BIND_URL, paramMap);
     }
 
     @Override
