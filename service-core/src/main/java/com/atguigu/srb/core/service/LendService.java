@@ -5,6 +5,7 @@ import com.atguigu.srb.core.pojo.entity.Lend;
 import com.atguigu.srb.core.pojo.vo.BorrowInfoApprovalVO;
 import com.baomidou.mybatisplus.extension.service.IService;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
@@ -39,4 +40,15 @@ public interface LendService extends IService<Lend> {
      * @return 封装标的信息和借款详情 VO 的 Map
      */
     Map<String, Object> getLendDetail(Long id);
+
+    /**
+     * 获取投资收益
+     *
+     * @param invest       投资
+     * @param yearRate     年利率
+     * @param totalMonth   总月数
+     * @param returnMethod 还款方式
+     * @return 投资收益
+     */
+    BigDecimal getInterestCount(BigDecimal invest, BigDecimal yearRate, Integer totalMonth, Integer returnMethod);
 }

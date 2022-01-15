@@ -105,4 +105,9 @@ public class UserBindServiceImpl extends ServiceImpl<UserBindMapper, UserBind> i
 
         userInfoMapper.updateById(userInfo);
     }
+
+    @Override
+    public String getBindCodeByUserId(Long userId) {
+        return baseMapper.selectOne(new QueryWrapper<UserBind>().eq("user_id", userId)).getBindCode();
+    }
 }

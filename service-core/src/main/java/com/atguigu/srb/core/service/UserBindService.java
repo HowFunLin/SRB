@@ -24,4 +24,9 @@ public interface UserBindService extends IService<UserBind> {
      * 账户绑定异步回调
      */
     void notify(Map<String, Object> paramMap);
+
+    /**
+     * 通过用户 ID 获取 绑定协议号
+     */
+    String getBindCodeByUserId(Long userId);
 }
