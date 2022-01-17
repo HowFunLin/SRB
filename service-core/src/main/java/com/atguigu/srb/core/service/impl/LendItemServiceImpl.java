@@ -185,4 +185,9 @@ public class LendItemServiceImpl extends ServiceImpl<LendItemMapper, LendItem> i
                 .eq("status", status)
         );
     }
+
+    @Override
+    public List<LendItem> selectByLendId(Long lendId) {
+        return baseMapper.selectList(new QueryWrapper<LendItem>().eq("lend_id", lendId));
+    }
 }

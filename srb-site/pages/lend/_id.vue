@@ -384,6 +384,59 @@
         </div>
       </div>
     </div>
+
+    <!-- 回款计划 -->
+    <div class="item-detail-body clearfix mrt30 ui-tab">
+      <div class="ui-tab-nav hd">
+        <ul>
+          <li class="nav_li active">
+            <a href="javascript:;">回款计划</a>
+          </li>
+        </ul>
+      </div>
+      <div class="bd">
+        <div class="ui-tab-item active" style="display: block;">
+          <div class="repayment-list">
+            <table border="0" cellpadding="0" cellspacing="0" width="100%">
+              <thead>
+                <tr>
+                  <th>期数</th>
+                  <th>本金(元)</th>
+                  <th>利息(元)</th>
+                  <th>本息(元)</th>
+                  <th>计划回款日期</th>
+                  <th>实际回款日期</th>
+                  <th>状态</th>
+                  <th>是否逾期</th>
+                </tr>
+              </thead>
+              <tbody id="repayment_content">
+                <tr
+                  v-for="lendItemReturn in lendItemReturnList"
+                  :key="lendItemReturn.id"
+                >
+                  <td>{{ lendItemReturn.currentPeriod }}</td>
+                  <td class="c-orange">￥{{ lendItemReturn.principal }}</td>
+                  <td class="c-orange">￥{{ lendItemReturn.interest }}</td>
+                  <td class="c-orange">￥{{ lendItemReturn.total }}</td>
+                  <td>{{ lendItemReturn.returnDate }}</td>
+                  <td>{{ lendItemReturn.realReturnTime }}</td>
+                  <td>
+                    {{ lendItemReturn.status === 0 ? "未还款" : "已还款" }}
+                  </td>
+                  <td>
+                    <span v-if="lendItemReturn.overdue">
+                      是（逾期金额：{{ lendReturn.overdueTotal }}元）
+                    </span>
+                    <span v-else>否</span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -399,9 +452,21 @@ export default {
     //通过lendId获取标的详情信息
     let response = await $axios.$get("/api/core/lend/show/" + lendId);
 
+    //投资记录
+    let responseLendItemList = await $axios.$get(
+      "/api/core/lendItem/list/" + lendId
+    );
+
+    //还款计划
+    let responseLendReturnList = await $axios.$get(
+      "/api/core/lendReturn/list/" + lendId
+    );
+
     return {
       lend: response.data.lendDetail.lend, //标的详情
       borrower: response.data.lendDetail.borrower, //借款人信息
+      lendItemList: responseLendItemList.data.list, //投资记录
+      lendReturnList: responseLendReturnList.data.list, //还款计划
     };
   },
 
@@ -415,6 +480,7 @@ export default {
       },
       interestCount: 0, //将获得收益
       userType: 0, //用户类型
+      lendItemReturnList: [], //回款计划
     };
   },
 
@@ -425,6 +491,9 @@ export default {
 
     //判断登录人的用户类型
     this.fetchUserType();
+
+    //回款计划
+    this.fetchLendItemReturnList();
   },
 
   methods: {
@@ -524,6 +593,15 @@ export default {
           },
         }
       );
+    },
+
+    //回款计划
+    fetchLendItemReturnList() {
+      this.$axios
+        .$get("/api/core/lendItemReturn/auth/list/" + this.$route.params.id)
+        .then((response) => {
+          this.lendItemReturnList = response.data.list;
+        });
     },
   },
 };

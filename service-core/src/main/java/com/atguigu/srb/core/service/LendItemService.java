@@ -32,11 +32,19 @@ public interface LendItemService extends IService<LendItem> {
     void notify(Map<String, Object> paramMap);
 
     /**
-     * 根据标的 ID 获取标的投资记录列表
+     * 根据标的 ID 和投资记录状态获取标的投资记录列表
      *
      * @param lendId 标的 ID
      * @param status 标的投资记录状态
      * @return 标的投资记录列表
      */
     List<LendItem> selectListByLendId(Long lendId, Integer status);
+
+    /**
+     * 根据标的 ID 获取标的
+     *
+     * @param lendId 标的 ID
+     * @return 标的投资记录列表
+     */
+    List<LendItem> selectByLendId(Long lendId);
 }
