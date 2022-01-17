@@ -25,6 +25,7 @@ import javax.annotation.Resource;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -175,5 +176,13 @@ public class LendItemServiceImpl extends ServiceImpl<LendItemMapper, LendItem> i
                 TransTypeEnum.INVEST_LOCK,
                 "投资项目编号" + lend.getLendNo() + "，项目名称：" + lend.getTitle()
         ));
+    }
+
+    @Override
+    public List<LendItem> selectListByLendId(Long lendId, Integer status) {
+        return baseMapper.selectList(new QueryWrapper<LendItem>()
+                .eq("lend_id", lendId)
+                .eq("status", status)
+        );
     }
 }

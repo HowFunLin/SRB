@@ -41,5 +41,13 @@ public class AdminLendController {
     public R show(@ApiParam(value = "标的 ID", required = true) @PathVariable Long id) {
         return R.ok().data("lendDetail", lendService.getLendDetail(id));
     }
+
+    @ApiOperation("放款")
+    @GetMapping("/makeLoan/{id}")
+    public R makeLoan(@ApiParam(value = "标的id", required = true) @PathVariable("id") Long id) {
+        lendService.makeLoan(id);
+
+        return R.ok().message("放款成功"); // 放款为同步调用，不使用自动提交表单，直接获取返回结果
+    }
 }
 
