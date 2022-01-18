@@ -4,6 +4,7 @@ import com.atguigu.srb.core.pojo.entity.UserInfo;
 import com.atguigu.srb.core.pojo.query.UserInfoQuery;
 import com.atguigu.srb.core.pojo.vo.LoginVO;
 import com.atguigu.srb.core.pojo.vo.RegisterVO;
+import com.atguigu.srb.core.pojo.vo.UserIndexVO;
 import com.atguigu.srb.core.pojo.vo.UserInfoVO;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -42,4 +43,12 @@ public interface UserInfoService extends IService<UserInfo> {
      * 判断邮箱地址是否被注册
      */
     boolean checkMobile(String mobile);
+
+    /**
+     * 获取用户首页信息
+     *
+     * @param userId 当前登录用户 ID
+     * @return 封装用户首页信息的 VO
+     */
+    UserIndexVO getIndexUserInfo(Long userId);
 }

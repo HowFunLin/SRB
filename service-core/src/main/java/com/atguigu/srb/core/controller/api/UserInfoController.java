@@ -7,6 +7,7 @@ import com.atguigu.common.result.ResponseEnum;
 import com.atguigu.srb.base.util.JwtUtils;
 import com.atguigu.srb.core.pojo.vo.LoginVO;
 import com.atguigu.srb.core.pojo.vo.RegisterVO;
+import com.atguigu.srb.core.pojo.vo.UserIndexVO;
 import com.atguigu.srb.core.pojo.vo.UserInfoVO;
 import com.atguigu.srb.core.service.UserInfoService;
 import io.swagger.annotations.Api;
@@ -80,6 +81,13 @@ public class UserInfoController {
     @GetMapping("/checkMobile/{mobile}")
     public boolean checkMobile(@PathVariable String mobile) {
         return userInfoService.checkMobile(mobile);
+    }
+
+    @ApiOperation("获取个人空间用户信息")
+    @GetMapping("/auth/getIndexUserInfo")
+    public R getIndexUserInfo(HttpServletRequest request) {
+        UserIndexVO userIndexVO = userInfoService.getIndexUserInfo(JwtUtils.getUserId(request.getHeader("token")));
+        return R.ok().data("userIndexVO", userIndexVO);
     }
 }
 

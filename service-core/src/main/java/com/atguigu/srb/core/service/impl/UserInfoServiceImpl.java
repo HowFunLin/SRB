@@ -13,6 +13,7 @@ import com.atguigu.srb.core.pojo.entity.UserLoginRecord;
 import com.atguigu.srb.core.pojo.query.UserInfoQuery;
 import com.atguigu.srb.core.pojo.vo.LoginVO;
 import com.atguigu.srb.core.pojo.vo.RegisterVO;
+import com.atguigu.srb.core.pojo.vo.UserIndexVO;
 import com.atguigu.srb.core.pojo.vo.UserInfoVO;
 import com.atguigu.srb.core.service.UserInfoService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -140,5 +141,33 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> i
     @Override
     public boolean checkMobile(String mobile) {
         return baseMapper.selectCount(new QueryWrapper<UserInfo>().eq("mobile", mobile)) > 0;
+    }
+
+    @Override
+    public UserIndexVO getIndexUserInfo(Long userId) {
+        UserIndexVO userIndexVO = new UserIndexVO();
+
+        UserInfo userInfo = baseMapper.selectById(userId);
+
+        BeanUtils.copyProperties(userInfo, userIndexVO);
+
+        UserAccount userAccount = userAccountMapper.selectOne(
+                new QueryWrapper<UserAccount>().eq("user_id", userId)
+        );
+
+        BeanUtils.copyProperties(userAccount, userIndexVO);
+
+        userIndexVO.setLastLoginTime(
+                userLoginRecordMapper
+                        .selectOne(
+                                new QueryWrapper<UserLoginRecord>()
+                                        .eq("user_id", userId)
+                                        .orderByDesc("id")
+                                        .last("limit 1")
+                        )
+                        .getCreateTime()
+        );
+
+        return userIndexVO;
     }
 }
