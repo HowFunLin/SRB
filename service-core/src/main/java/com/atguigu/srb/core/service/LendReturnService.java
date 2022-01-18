@@ -4,6 +4,7 @@ import com.atguigu.srb.core.pojo.entity.LendReturn;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -21,4 +22,20 @@ public interface LendReturnService extends IService<LendReturn> {
      * @return 还款计划列表
      */
     List<LendReturn> selectByLendId(Long lendId);
+
+    /**
+     * 提交还款
+     *
+     * @param lendReturnId 还款计划 ID
+     * @param userId       当前登录用户 ID
+     * @return 自动提交表单字符串
+     */
+    String commitReturn(Long lendReturnId, Long userId);
+
+    /**
+     * 汇付宝 还款回调
+     *
+     * @param paramMap 回调参数
+     */
+    void notify(Map<String, Object> paramMap);
 }

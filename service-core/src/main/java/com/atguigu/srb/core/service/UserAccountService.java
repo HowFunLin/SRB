@@ -38,4 +38,20 @@ public interface UserAccountService extends IService<UserAccount> {
      * @return 用户账户余额
      */
     BigDecimal getAccount(Long userId);
+
+    /**
+     * 提交体现
+     *
+     * @param fetchAmt 提现金额
+     * @param userId   当前用户 ID
+     * @return 自动提交汇付宝表单字符串
+     */
+    String commitWithdraw(BigDecimal fetchAmt, Long userId);
+
+    /**
+     * 汇付宝 用户提现回调接口
+     *
+     * @param paramMap 回调参数
+     */
+    void notifyWithdraw(Map<String, Object> paramMap);
 }

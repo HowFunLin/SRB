@@ -59,5 +59,34 @@ public class UserAccountController {
     public R getAccount(HttpServletRequest request) {
         return R.ok().data("account", userAccountService.getAccount(JwtUtils.getUserId(request.getHeader("token"))));
     }
+
+    @ApiOperation("用户提现")
+    @PostMapping("/auth/commitWithdraw/{fetchAmt}")
+    public R commitWithdraw(@ApiParam(value = "金额", required = true) @PathVariable BigDecimal fetchAmt,
+                            HttpServletRequest request
+    ) {
+        return R.ok().data(
+                "formStr",
+                userAccountService.commitWithdraw(fetchAmt, JwtUtils.getUserId(request.getHeader("token")))
+        );
+    }
+
+    @ApiOperation("用户提现异步回调")
+    @PostMapping("/notifyWithdraw")
+    public String notifyWithdraw(HttpServletRequest request) {
+        Map<String, Object> paramMap = RequestHelper.switchMap(request.getParameterMap());
+
+        // 校验签名
+        if (RequestHelper.isSignEquals(paramMap)) {
+            // 提现成功交易
+            if ("0001".equals(paramMap.get("resultCode"))) {
+                userAccountService.notifyWithdraw(paramMap);
+
+                return "success";
+            }
+        }
+
+        return "fail"; // 提现失败重试
+    }
 }
 
