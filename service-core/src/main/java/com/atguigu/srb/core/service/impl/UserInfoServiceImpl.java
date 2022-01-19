@@ -170,4 +170,9 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> i
 
         return userIndexVO;
     }
+
+    @Override
+    public String getMobileByBindCode(String bindCode) {
+        return baseMapper.selectOne(new QueryWrapper<UserInfo>().eq("bind_code", bindCode)).getMobile();
+    }
 }

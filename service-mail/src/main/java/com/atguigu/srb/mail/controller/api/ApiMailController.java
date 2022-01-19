@@ -48,7 +48,7 @@ public class ApiMailController {
         String code = RandomUtils.getSixBitRandom();
 
         //发送短信
-//        mailService.send(email, code);
+        mailService.sendVerificationCode(email, code);
 
         //将验证码存入redis
         redisTemplate.opsForValue().set("srb:sms:code:" + email, code, 3, TimeUnit.MINUTES);
