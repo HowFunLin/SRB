@@ -1,0 +1,117 @@
+version: "3"
+
+services:
+  service-gateway:
+    image: service-gateway:latest
+    container_name: service-gateway
+    ports:
+      - "80:80"
+    networks:
+      - srb
+    depends_on:
+      - nacos
+      - service-core
+      - service-mail
+      - service-oss
+
+  service-core:
+    image: service-core:latest
+    container_name: service-core
+    ports:
+      - "8110:8110"
+    networks:
+      - srb
+    depends_on:
+      - mysql8
+      - redis
+      - nacos
+      - canal
+      - rabbitmq
+
+  service-mail:
+    image: service-mail:latest
+    container_name: service-mail
+    ports:
+      - "8120:8120"
+    networks:
+      - srb
+    depends_on:
+      - redis
+      - nacos
+      - rabbitmq
+
+  service-oss:
+    image: service-oss:latest
+    container_name: service-oss
+    ports:
+      - "8130:8130"
+    networks:
+      - srb
+    depends_on:
+      - nacos
+
+  mysql8:
+    image: mysql:8.0
+    container_name: mysql8
+    ports:
+      - "3306:3306"
+    volumes:
+      - /docker/mysql/data:/var/lib/mysql
+      - /docker/mysql/conf:/etc/mysql/conf.d
+    environment:
+      MYSQL_ROOT_PASSWORD: '123698745lin'
+    networks:
+      - srb
+
+  redis:
+    image: redis:6.2.6
+    container_name: redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - /docker/redis/conf:/usr/local/etc/redis
+    networks:
+      - srb
+    command: redis-server /usr/local/etc/redis/redis.conf
+
+  canal:
+    image: canal/canal-server:v1.1.5
+    container_name: canal
+    ports:
+      - "11111:11111"
+    environment:
+      canal.destinations: srb_core
+      canal.instance.master.address: mysql8:3306
+      canal.instance.dbUsername: canal
+      canal.instance.dbPassword: canal
+      canal.instance.connectionCharset: UTF-8
+      canal.instance.tsdb.enable: true
+      canal.instance.gtidon: false
+      canal.instance.filter.regex: srb_core\\..*
+    networks:
+      - srb
+      
+  nacos:
+    image: nacos/nacos-server:1.4.0
+    ports:
+      - "8848:8848"
+    container_name: nacos
+    environment:
+      MODE: standalone
+    networks:
+     - srb
+      
+  rabbitmq:
+    image: rabbitmq:3.8.27-management
+    container_name: rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: admin
+      RABBITMQ_DEFAULT_PASS: admin
+    networks:
+      - srb
+
+networks:
+  srb:
